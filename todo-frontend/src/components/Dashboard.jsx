@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   const markDone = async (id) => {
     const token = localStorage.getItem("token");
-    await axios.put(`todos/${id}/done`, {}, {
+    await api.put(`todos/${id}/done`, {}, {
       headers: { Authorization: `Bearer ${token}` },
     });
     fetchTodos();
