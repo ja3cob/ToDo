@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../util/api";
 
 const Dashboard = () => {
   const [todos, setTodos] = useState([]);
@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   const fetchTodos = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:5000/api/todos", {
+    const response = await api.get("todos", {
       headers: { Authorization: `Bearer ${token}` },
     });
     setTodos(response.data);
@@ -20,8 +20,8 @@ const Dashboard = () => {
 
   const addTodo = async () => {
     const token = localStorage.getItem("token");
-    await axios.post(
-      "http://localhost:5000/api/todos",
+    await api.post(
+      "todos",
       { text: newTodo, dueDate: date },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   const markDone = async (id) => {
     const token = localStorage.getItem("token");
-    await axios.put(`http://localhost:5000/api/todos/${id}/done`, {}, {
+    await axios.put(`todos/${id}/done`, {}, {
       headers: { Authorization: `Bearer ${token}` },
     });
     fetchTodos();

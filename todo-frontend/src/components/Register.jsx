@@ -9,7 +9,7 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/register", { email, password });
+      await api.post("auth/register", { email, password });
       navigate("/");
     } catch (error) {
       alert("Registration failed");
