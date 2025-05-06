@@ -30,7 +30,7 @@ const Dashboard = () => {
     fetchTodos();
   };
 
-  const markDone = async (id) => {
+  const toggleDone = async (id) => {
     const token = localStorage.getItem("token");
     await api.put(`todos/${id}/done`, {}, {
       headers: { Authorization: `Bearer ${token}` },
@@ -42,7 +42,7 @@ const Dashboard = () => {
     if(confirm('Siur?') != true) {
       return;
     }
-    
+
     const token = localStorage.getItem("token");
     await api.delete(`todos/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -76,7 +76,7 @@ const Dashboard = () => {
           <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
             <span>{todo.text} <span className="text-sm text-gray-500">(Due: {new Date(todo.dueDate).toLocaleDateString()})</span></span>
             <div>
-              <button onClick={() => markDone(todo.id)} className="bg-blue-500 text-white p-1 px-3 rounded hover:bg-blue-600 mr-1">Done</button>
+              <button onClick={() => toggleDone(todo.id)} className="bg-blue-500 text-white p-1 px-3 rounded hover:bg-blue-600 mr-1">Done</button>
               <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
             </div>
           </li>
@@ -88,7 +88,10 @@ const Dashboard = () => {
         {todos.filter(todo => todo.isDone).map(todo => (
           <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
             <span className="line-through text-gray-500">{todo.text}</span>
-            <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
+            <div>
+              <button onClick={() => toggleDone(todo.id)} className="bg-green-500 text-white p-1 px-3 rounded hover:bg-green-600 mr-1">Undone</button>
+              <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
+            </div>
           </li>
         ))}
       </ul>

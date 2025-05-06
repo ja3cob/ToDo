@@ -40,7 +40,7 @@ public class ToDosController(AppDbContext context) : ControllerBase
     }
 
     [HttpPut("{id:int}/done")]
-    public async Task<IActionResult> MarkDone(int id)
+    public async Task<IActionResult> ToggleDone(int id)
     {
         var todo = await context.ToDos.FindAsync(id);
         if (todo == null || todo.UserId != GetUserId())
@@ -48,7 +48,7 @@ public class ToDosController(AppDbContext context) : ControllerBase
             return NotFound();
         }
 
-        todo.IsDone = true;
+        todo.IsDone = !todo.IsDone;
         await context.SaveChangesAsync();
         return Ok();
     }
