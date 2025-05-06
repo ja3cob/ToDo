@@ -38,6 +38,18 @@ const Dashboard = () => {
     fetchTodos();
   };
 
+  const deleteTodo = async (id) => {
+    if(confirm('Siur?') != true) {
+      return;
+    }
+    
+    const token = localStorage.getItem("token");
+    await api.delete(`todos/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    fetchTodos();
+  }
+
   return (
     <div className="p-8 max-w-2xl mx-auto bg-white shadow-md rounded-xl">
       <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
@@ -63,7 +75,10 @@ const Dashboard = () => {
         {todos.filter(todo => !todo.isDone).map(todo => (
           <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
             <span>{todo.text} <span className="text-sm text-gray-500">(Due: {new Date(todo.dueDate).toLocaleDateString()})</span></span>
-            <button onClick={() => markDone(todo.id)} className="bg-blue-500 text-white p-1 px-3 rounded hover:bg-blue-600">Done</button>
+            <div>
+              <button onClick={() => markDone(todo.id)} className="bg-blue-500 text-white p-1 px-3 rounded hover:bg-blue-600 mr-1">Done</button>
+              <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
+            </div>
           </li>
         ))}
       </ul>
@@ -71,8 +86,9 @@ const Dashboard = () => {
       <h3 className="text-xl font-semibold mb-2">Done To-Dos</h3>
       <ul className="space-y-2">
         {todos.filter(todo => todo.isDone).map(todo => (
-          <li key={todo.id} className="border p-2 rounded line-through text-gray-500">
-            {todo.text} (Done)
+          <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
+            <span className="line-through text-gray-500">{todo.text}</span>
+            <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
           </li>
         ))}
       </ul>
