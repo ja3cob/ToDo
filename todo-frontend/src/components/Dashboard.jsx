@@ -4,7 +4,7 @@ import api from "../util/api";
 const Dashboard = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 
   const fetchTodos = async () => {
     const token = localStorage.getItem("token");
@@ -26,7 +26,6 @@ const Dashboard = () => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     setNewTodo("");
-    setDate("");
     fetchTodos();
   };
 
