@@ -16,16 +16,28 @@ public class ToDosController(AppDbContext context) : ControllerBase
     private int GetUserId() => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
 
     [HttpGet]
-    public async Task<IActionResult> GetTodos()
+    public async Task<IActionResult> GetTodos([FromQuery] DateTime? date)
     {
-        var userId = GetUserId();
-        var todos = await context.ToDos.Where(t => t.UserId == userId).ToListAsync();
-        return Ok(todos);
+        int userId = GetUserId();
+        var query = context.ToDos.Where(t => t.UserId == userId);
+        if (date != null)
+        {
+            var dayStart = date.Value.Date;
+            var dayEnd = dayStart.AddDays(1);
+            query = query.Where(t => t.DueDate >= dayStart && t.DueDate < dayEnd);
+        }
+
+        return Ok(await query.ToListAsync());
     }
 
     [HttpPost]
     public async Task<IActionResult> AddTodo(ToDoDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.Text))
+        {
+            return BadRequest();
+        }
+
         var userId = GetUserId();
         var todo = new ToDoItem
         {
