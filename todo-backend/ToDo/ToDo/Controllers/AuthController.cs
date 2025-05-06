@@ -16,7 +16,7 @@ public class AuthController(AppDbContext context, JwtService jwt) : ControllerBa
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto dto)
     {
-        if (context.Users.Any(u => u.Email == dto.Email))
+        if (context.Users.Any(u => u.Username == dto.Username))
         {
             return BadRequest("User already exists");
         }
@@ -24,7 +24,7 @@ public class AuthController(AppDbContext context, JwtService jwt) : ControllerBa
         using var hmac = new HMACSHA512();
         var user = new User
         {
-            Email = dto.Email,
+            Username = dto.Username,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(dto.Password)),
             PasswordSalt = hmac.Key
         };
@@ -37,7 +37,7 @@ public class AuthController(AppDbContext context, JwtService jwt) : ControllerBa
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto dto)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
         if (user == null)
         {
             return Unauthorized();
