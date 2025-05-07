@@ -5,7 +5,8 @@ services:
       - "5040:5000"
     restart: always
     volumes:
-      - /app/todo.db
+      - ./db:/app/db
+    stdin_open: true
   frontend:
     image: todo-frontend:latest
     ports:

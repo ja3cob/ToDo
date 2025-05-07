@@ -15,6 +15,8 @@ internal class Program
 {
     public static void Main(string[] args)
     {
+        Directory.CreateDirectory("db");
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
