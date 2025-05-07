@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
 
 WORKDIR /app
 
-COPY . .
+COPY ./ToDo .
 RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
