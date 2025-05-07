@@ -19,6 +19,7 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
         builder.Services.AddScoped<JwtService>();
+        builder.Services.AddScoped<AuthService>();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
