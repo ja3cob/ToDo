@@ -1,0 +1,15 @@
+services:
+  backend:
+    image: todo-backend:latest
+    ports:
+      - "5040:5000"
+    restart: always
+    volumes:
+      - /app/todo.db
+  frontend:
+    image: todo-frontend:latest
+    ports:
+      - "5041:80"
+    restart: always
+    depends_on:
+      - backend
