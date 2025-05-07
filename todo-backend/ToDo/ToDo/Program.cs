@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using System.Text;
+using ConsoleCommands;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -58,6 +59,8 @@ internal class Program
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             context.Database.Migrate();
         }
+
+        CC.ReadCommands(app.Services);
 
         app.Run();
     }
