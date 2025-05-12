@@ -15,10 +15,22 @@ public class ToDosController(AppDbContext context) : ControllerBase
 {
     private int GetUserId() => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
 
+    private void SetUndoneTodosDateToToday(int userId)
+    {
+        foreach (var todo in context.ToDos.Where(p => p.UserId == userId && p.DueDate.Date < DateTime.Now.Date))
+        {
+            todo.DueDate = DateTime.Now.Date;
+        }
+
+        context.SaveChanges();
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetTodos([FromQuery] DateTime? date)
     {
         int userId = GetUserId();
+        SetUndoneTodosDateToToday(userId);
+
         var query = context.ToDos.Where(t => t.UserId == userId);
         if (date != null)
         {
