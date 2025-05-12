@@ -13,6 +13,6 @@ services:
       - ${FRONTEND_PORT}:80
     restart: always
     environment:
-      - VITE_SERVER_URL=https://todoapp.mooo.com
+      - VITE_BACKEND_URL=https://todoapp.mooo.com
     depends_on:
       - backend
