@@ -1,9 +1,7 @@
 name: Build and Push Docker image
 
 on:
-  push:
-    branches: [ "main" ]
-    paths: [ "todo-backend/**" ]
+  pull_request:
 
 jobs:
   build-and-push-backend-docker-image:
