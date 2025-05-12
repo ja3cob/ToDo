@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const [newTodoDate, setNewTodoDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const navigate = useNavigate();
 
@@ -36,7 +35,7 @@ const Dashboard = () => {
     const token = localStorage.getItem("token");
     await api.post(
       "todos",
-      { text: newTodo, dueDate: newTodoDate },
+      { text: newTodo, dueDate: selectedDate },
       { headers: { Authorization: `Bearer ${token}` } }
     );
     setNewTodo("");
@@ -84,12 +83,6 @@ const Dashboard = () => {
           onChange={e => setNewTodo(e.target.value)}
           className="flex-1 border p-2 rounded"
         />
-        <input
-          type="date"
-          value={newTodoDate}
-          onChange={e => setNewTodoDate(e.target.value)}
-          className="border p-2 rounded"
-        />
         <button onClick={addTodo} className="bg-green-500 text-white p-2 rounded hover:bg-green-600">Add</button>
       </div>
 
@@ -106,7 +99,7 @@ const Dashboard = () => {
         {todos.filter(todo => !todo.isDone).map(todo => (
           <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
             {todo.text}
-            <div>
+            <div className="whitespace-nowrap">
               <button onClick={() => toggleDone(todo.id)} className="bg-blue-500 text-white p-1 px-3 rounded hover:bg-blue-600 mr-1">Done</button>
               <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
             </div>
