@@ -1,6 +1,6 @@
 services:
   backend:
-    image: todo-backend:latest
+    image: ghcr.io/ja3cob/todo-backend:latest
     ports:
       - "5040:5000"
     restart: always
@@ -8,7 +8,7 @@ services:
       - ./db:/app/db
     stdin_open: true
   frontend:
-    image: todo-frontend:latest
+    image: ghcr.io/ja3cob/todo-frontend:latest
     ports:
       - "5041:80"
     restart: always
