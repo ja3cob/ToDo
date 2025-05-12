@@ -17,7 +17,7 @@ public class ToDosController(AppDbContext context) : ControllerBase
 
     private void SetUndoneTodosDateToToday(int userId)
     {
-        foreach (var todo in context.ToDos.Where(p => p.UserId == userId && p.DueDate.Date < DateTime.Now.Date))
+        foreach (var todo in context.ToDos.Where(p => p.UserId == userId && p.IsDone == false && p.DueDate.Date < DateTime.Now.Date))
         {
             todo.DueDate = DateTime.Now.Date;
         }
@@ -50,7 +50,7 @@ public class ToDosController(AppDbContext context) : ControllerBase
             return BadRequest();
         }
 
-        var userId = GetUserId();
+        int userId = GetUserId();
         var todo = new ToDoItem
         {
             Text = dto.Text,
