@@ -18,10 +18,10 @@ const Register = () => {
 
   return (
     <div className="p-8 max-w-md mx-auto bg-white shadow-md rounded-xl">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
-      <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} className="w-full border p-2 mb-2 rounded" />
-      <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border p-2 mb-4 rounded" />
-      <button onClick={handleRegister} className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Register</button>
+      <h2 className="text-2xl font-bold mb-4">Rejestracja</h2>
+      <input type="text" placeholder="Nazwa użytkownika" value={username} onChange={e => setUsername(e.target.value)} className="w-full border p-2 mb-2 rounded" />
+      <input type="password" placeholder="Hasło" value={password} onChange={e => setPassword(e.target.value)} className="w-full border p-2 mb-4 rounded" />
+      <button onClick={handleRegister} className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Zarejestruj</button>
     </div>
   );
 };

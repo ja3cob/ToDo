@@ -21,17 +21,12 @@ const ToDoItem = ({ todo, fetchTodos }) => {
         fetchTodos();
     }
 
-    let buttonColor = "blue";
-    if(todo.isDone) {
-        buttonColor = "green";
-    }
-
     return (
         <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
-          <span className={todo.isDone ? "line-through text-gray-500" : ""}>{todo.text}</span>
-          <div>
-            <button onClick={() => toggleDone(todo.id)} className={`bg-${buttonColor}-500 text-white p-1 px-3 rounded hover:bg-${buttonColor}-600 mr-1`}>{todo.isDone ? "Undone" : "Done"}</button>
-            <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
+          <span className={`wrap-anywhere ${todo.isDone ? " line-through text-gray-500" : ""}`}>{todo.text}</span>
+          <div className="whitespace-nowrap">
+            <i onClick={() => toggleDone(todo.id)} className={`text-3xl text-green-500 cursor-pointer m-3 fa-regular fa-square${todo.isDone ? "-check" : ""}`}/>
+            <i onClick={() => deleteTodo(todo.id)} className="text-3xl text-red-500 cursor-pointer fa-solid fa-trash-can"/>
           </div>
         </li>
     );
