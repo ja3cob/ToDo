@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../util/api";
 import { useNavigate } from "react-router-dom";
+import ToDoItem from "./ToDoItem";
 
 const Dashboard = () => {
   const [todos, setTodos] = useState([]);
@@ -42,26 +43,6 @@ const Dashboard = () => {
     fetchTodos();
   };
 
-  const toggleDone = async (id) => {
-    const token = localStorage.getItem("token");
-    await api.put(`todos/${id}/done`, {}, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    fetchTodos();
-  };
-
-  const deleteTodo = async (id) => {
-    if(confirm('Siur?') != true) {
-      return;
-    }
-
-    const token = localStorage.getItem("token");
-    await api.delete(`todos/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    fetchTodos();
-  }
-
   return (
     <div className="p-8 max-w-2xl mx-auto bg-white shadow-md rounded-xl">
       <div className="flex items-center justify-between mb-6">
@@ -96,28 +77,12 @@ const Dashboard = () => {
         />
       </h3>
       <ul className="space-y-2 mb-6">
-        {todos.filter(todo => !todo.isDone).map(todo => (
-          <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
-            {todo.text}
-            <div className="whitespace-nowrap">
-              <button onClick={() => toggleDone(todo.id)} className="bg-blue-500 text-white p-1 px-3 rounded hover:bg-blue-600 mr-1">Done</button>
-              <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
-            </div>
-          </li>
-        ))}
+        {todos.filter(todo => !todo.isDone).map(todo => <ToDoItem todo={todo} fetchTodos={fetchTodos}/>)}
       </ul>
 
       <h3 className="text-xl font-semibold mb-2">Done To-Dos</h3>
       <ul className="space-y-2">
-        {todos.filter(todo => todo.isDone).map(todo => (
-          <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
-            <span className="line-through text-gray-500">{todo.text}</span>
-            <div>
-              <button onClick={() => toggleDone(todo.id)} className="bg-green-500 text-white p-1 px-3 rounded hover:bg-green-600 mr-1">Undone</button>
-              <button onClick={() => deleteTodo(todo.id)} className="bg-red-500 text-white p-1 px-3 rounded hover:bg-red-600">Delete</button>
-            </div>
-          </li>
-        ))}
+        {todos.filter(todo => todo.isDone).map(todo => <ToDoItem todo={todo} fetchTodos={fetchTodos}/>)}
       </ul>
     </div>
   );
