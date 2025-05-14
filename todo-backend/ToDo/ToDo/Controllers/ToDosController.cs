@@ -77,6 +77,22 @@ public class ToDosController(AppDbContext context) : ControllerBase
         return Ok();
     }
 
+    [HttpPatch("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] ToDoDto dto)
+    {
+        var todo = await context.ToDos.FindAsync(id);
+        if (todo == null || todo.UserId != GetUserId())
+        {
+            return NotFound();
+        }
+
+        todo.Text = dto.Text;
+        todo.DueDate = dto.DueDate;
+        await context.SaveChangesAsync();
+
+        return Ok();
+    }
+
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
