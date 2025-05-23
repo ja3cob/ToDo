@@ -76,12 +76,12 @@ const Dashboard = () => {
         />
       </h3>
       <ul className="space-y-2 mb-6">
-        {todos.filter(todo => !todo.isDone).map(todo => <ToDoItem todo={todo} fetchTodos={fetchTodos}/>)}
+        {todos.filter(todo => !todo.isDone).map(todo => <ToDoItem key={todo.id} todo={todo} fetchTodos={fetchTodos}/>)}
       </ul>
 
       <h3 className="text-xl font-semibold mb-2">Zrobione</h3>
       <ul className="space-y-2">
-        {todos.filter(todo => todo.isDone).map(todo => <ToDoItem todo={todo} fetchTodos={fetchTodos}/>)}
+        {todos.filter(todo => todo.isDone).map(todo => <ToDoItem key={todo.id} todo={todo} fetchTodos={fetchTodos}/>)}
       </ul>
     </div>
   );

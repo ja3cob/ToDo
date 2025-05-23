@@ -45,7 +45,7 @@ const ToDoItem = ({ todo, fetchTodos }) => {
     }
 
     return (
-        <li key={todo.id} className="flex justify-between items-center border p-2 rounded">
+        <li className="flex justify-between items-center border p-2 rounded">
           {editMode
             ? (<>
                <textarea className="flex-1 resize-none border p-1 mr-2" value={editedText} onChange={e => setEditedText(e.target.value)} />
