@@ -21,7 +21,9 @@ const Register = () => {
       <h2 className="text-2xl font-bold mb-4">Rejestracja</h2>
       <input type="text" placeholder="Nazwa użytkownika" value={username} onChange={e => setUsername(e.target.value)} className="w-full border p-2 mb-2 rounded" />
       <input type="password" placeholder="Hasło" value={password} onChange={e => setPassword(e.target.value)} className="w-full border p-2 mb-4 rounded" />
-      <button onClick={handleRegister} className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Zarejestruj</button>
+      <button onClick={handleRegister} className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
+        Zarejestruj
+      </button>
     </div>
   );
 };
