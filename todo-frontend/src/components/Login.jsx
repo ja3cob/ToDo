@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../util/api";
 
@@ -9,10 +9,9 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("auth/login", { username, password });
-      localStorage.setItem("token", response.data.token);
+      await api.post("auth/login", { username, password });
       navigate("/dashboard");
-    } catch (error) {
+    } catch {
       alert("Login failed");
     }
   };

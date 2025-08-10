@@ -10,14 +10,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const fetchTodos = async () => {
-    const token = localStorage.getItem("token");
     try {
-      if (!token) {
-        throw Error;
-      }
-
       const response = await api.get("todos", {
-        headers: { Authorization: `Bearer ${token}` },
         params: { date: selectedDate },
       });
 
@@ -32,8 +26,7 @@ const Dashboard = () => {
   }, [selectedDate]);
 
   const addTodo = async () => {
-    const token = localStorage.getItem("token");
-    await api.post("todos", { text: newTodo, dueDate: selectedDate }, { headers: { Authorization: `Bearer ${token}` } });
+    await api.post("todos", { text: newTodo, dueDate: selectedDate });
     setNewTodo("");
     fetchTodos();
   };
@@ -44,7 +37,7 @@ const Dashboard = () => {
         <h2 className="text-3xl font-bold">To-Do lista</h2>
         <i
           onClick={() => {
-            localStorage.removeItem("token");
+            api.post("auth/logout");
             window.location.href = "/";
           }}
           className="bg-red-500 text-white p-3 rounded hover:bg-red-600 fa-solid fa-arrow-right-from-bracket"></i>

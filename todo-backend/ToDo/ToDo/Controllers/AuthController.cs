@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDo.Data;
@@ -8,9 +11,10 @@ using ToDo.Services;
 
 namespace ToDo.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/auth")]
-public class AuthController(AppDbContext context, JwtService jwt, AuthService authService) : ControllerBase
+public class AuthController(AppDbContext context, AuthService authService) : ControllerBase
 {
     [HttpPost("register")]
     public IActionResult Register(RegisterDto dto)
@@ -40,7 +44,14 @@ public class AuthController(AppDbContext context, JwtService jwt, AuthService au
             return Unauthorized();
         }
 
-        var token = jwt.GenerateToken(user);
-        return Ok(new { token });
+        await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())], Cookies.Identity)));
+        return Ok();
+    }
+
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();
+        return Ok();
     }
 }

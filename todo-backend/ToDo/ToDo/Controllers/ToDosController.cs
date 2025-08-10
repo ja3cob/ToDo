@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using ToDo.Data;
@@ -8,7 +7,6 @@ using ToDo.Models;
 
 namespace ToDo.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/todos")]
 public class ToDosController(AppDbContext context) : ControllerBase

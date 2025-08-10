@@ -3,27 +3,15 @@ import api from "../util/api";
 
 const ToDoItem = ({ todo, fetchTodos }) => {
   const toggleDone = async id => {
-    const token = localStorage.getItem("token");
-    await api.put(
-      `todos/${id}/done`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    await api.put(`todos/${id}/done`);
     fetchTodos();
   };
 
   const updateTodo = async (id, text, dueDate) => {
-    const token = localStorage.getItem("token");
-    await api.patch(
-      `todos/${id}`,
-      {
-        Text: text,
-        DueDate: dueDate,
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    await api.patch(`todos/${id}`, {
+      Text: text,
+      DueDate: dueDate,
+    });
     fetchTodos();
   };
 
@@ -32,10 +20,7 @@ const ToDoItem = ({ todo, fetchTodos }) => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-    await api.delete(`todos/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await api.delete(`todos/${id}`);
     fetchTodos();
   };
 

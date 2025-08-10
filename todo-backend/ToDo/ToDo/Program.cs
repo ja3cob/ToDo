@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using System.Text;
 using ConsoleCommands;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using ToDo.Data;
 using ToDo.Services;
 
@@ -21,40 +18,28 @@ internal class Program
 
         builder.Services.AddControllers();
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-        builder.Services.AddScoped<JwtService>();
         builder.Services.AddScoped<AuthService>();
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+        builder.Services.AddAuthentication(Cookies.Identity)
+            .AddCookie(Cookies.Identity, options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                };
+                options.Cookie.Name = Cookies.Identity;
+                options.ExpireTimeSpan = TimeSpan.FromDays(3);
             });
+        builder.Services.AddAuthorization();
 
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAll", conf =>
-            {
-                conf.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            });
-        });
+        builder.Services.AddCors();
 
         var app = builder.Build();
 
-        app.UseCors("AllowAll");
+        app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(_ => true)
+            .AllowCredentials());
         app.UseAuthentication();
         app.UseAuthorization();
-        app.MapControllers();
+        app.MapControllers().RequireAuthorization();
 
         using (var scope = app.Services.CreateScope())
         {
