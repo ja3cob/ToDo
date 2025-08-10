@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       await api.post("auth/login", { username, password });
-      navigate("/dashboard");
+      navigate("/");
     } catch {
       alert("Login failed");
     }

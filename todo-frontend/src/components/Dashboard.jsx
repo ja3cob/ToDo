@@ -17,7 +17,7 @@ const Dashboard = () => {
 
       setTodos(response.data);
     } catch {
-      navigate("/");
+      await navigate("/login");
     }
   };
 
