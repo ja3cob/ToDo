@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const fetchTodos = async () => {
@@ -18,6 +19,8 @@ const Dashboard = () => {
       setTodos(response.data);
     } catch {
       await navigate("/login");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,13 +34,21 @@ const Dashboard = () => {
     fetchTodos();
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-4xl font-bold">Ładowanie...</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="p-8 max-w-2xl mx-auto bg-white shadow-md rounded-xl">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-3xl font-bold">To-Do lista</h2>
         <i
-          onClick={() => {
-            api.post("auth/logout");
+          onClick={async () => {
+            await api.post("auth/logout");
             window.location.href = "/";
           }}
           className="bg-red-500 text-white p-3 rounded hover:bg-red-600 fa-solid fa-arrow-right-from-bracket"></i>
