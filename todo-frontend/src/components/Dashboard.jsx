@@ -54,7 +54,7 @@ const Dashboard = () => {
           className="bg-red-500 text-white p-3 rounded hover:bg-red-600 fa-solid fa-arrow-right-from-bracket"></i>
       </div>
       <div className="mb-6 flex flex-col sm:flex-row gap-2">
-        <input type="text" placeholder="Nowe zadanie" value={newTodo} onChange={e => setNewTodo(e.target.value)} className="flex-1 border p-2 rounded" />
+        <input type="text" placeholder="Nowe zadanie" value={newTodo} onChange={e => setNewTodo(e.target.value)} className="flex-1 border p-2 rounded" onKeyDown={e => e.key === "Enter" && addTodo()} />
         <button onClick={addTodo} className="bg-green-500 text-white p-2 rounded hover:bg-green-600">
           Dodaj
         </button>
