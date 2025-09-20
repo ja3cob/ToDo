@@ -24,7 +24,8 @@ internal class Program
             .AddCookie(Cookies.Identity, options =>
             {
                 options.Cookie.Name = Cookies.Identity;
-                options.ExpireTimeSpan = TimeSpan.FromDays(3);
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                options.SlidingExpiration = true;
             });
         builder.Services.AddAuthorization();
 

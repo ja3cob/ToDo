@@ -44,7 +44,14 @@ public class AuthController(AppDbContext context, AuthService authService) : Con
             return Unauthorized();
         }
 
-        await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())], Cookies.Identity)));
+        await HttpContext.SignInAsync(
+            Cookies.Identity,
+            new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())], Cookies.Identity)),
+            new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(7),
+            });
         return Ok();
     }
 
