@@ -39,7 +39,7 @@ const ToDoItem = ({ todo, fetchTodos }) => {
     <li className="flex justify-between items-center border p-2 rounded">
       {editMode ? (
         <>
-          <textarea className="flex-1 resize-none border p-1 mr-2" value={editedText} onChange={e => setEditedText(e.target.value)} />
+          <textarea className="flex-1 min-w-0 resize-none border p-1 mr-2" value={editedText} onChange={e => setEditedText(e.target.value)} />
           <input type="date" value={editedDueDate} onChange={e => setEditedDueDate(e.target.value)} className="border p-2 rounded mb-2" />
         </>
       ) : (
