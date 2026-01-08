@@ -26,6 +26,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchTodos();
+
+    const intervalId = setInterval(fetchTodos, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [selectedDate]);
 
   const addTodo = async () => {
