@@ -17,8 +17,12 @@ const Dashboard = () => {
       });
 
       setTodos(response.data);
-    } catch {
-      await navigate("/login");
+    } catch (ex) {
+      if (ex.response?.status === 401 || ex.response?.status === 403) {
+        await navigate("/login");
+      } else {
+        console.log(ex);
+      }
     } finally {
       setLoading(false);
     }
