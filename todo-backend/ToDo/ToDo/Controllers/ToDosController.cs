@@ -37,7 +37,7 @@ public class ToDosController(AppDbContext context) : ControllerBase
             query = query.Where(t => t.DueDate >= dayStart && t.DueDate < dayEnd);
         }
 
-        return Ok(await query.ToListAsync());
+        return Ok(await query.OrderBy(p => p.CreatedAt).ToListAsync());
     }
 
     [HttpPost]
@@ -54,7 +54,8 @@ public class ToDosController(AppDbContext context) : ControllerBase
             Text = dto.Text,
             DueDate = dto.DueDate,
             IsDone = false,
-            UserId = userId
+            UserId = userId,
+            CreatedAt = DateTime.Now,
         };
         context.ToDos.Add(todo);
         await context.SaveChangesAsync();
