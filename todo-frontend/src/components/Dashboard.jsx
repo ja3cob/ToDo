@@ -56,12 +56,15 @@ const Dashboard = () => {
     <div className="p-8 max-w-2xl mx-auto bg-white shadow-md rounded-xl">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-3xl font-bold">To-Do lista</h2>
-        <i
+        <button
           onClick={async () => {
             await api.post("auth/logout");
             window.location.href = "/";
           }}
-          className="bg-red-500 text-white p-3 rounded hover:bg-red-600 fa-solid fa-arrow-right-from-bracket"></i>
+          className="flex items-center justify-center w-11 h-11 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer"
+          title="Wyloguj">
+          <i className="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
       </div>
       <div className="mb-6 flex flex-col sm:flex-row gap-2">
         <input type="text" placeholder="Nowe zadanie" value={newTodo} onChange={e => setNewTodo(e.target.value)} className="flex-1 border p-2 rounded" onKeyDown={e => e.key === "Enter" && addTodo()} />
